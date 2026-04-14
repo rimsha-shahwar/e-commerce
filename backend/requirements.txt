@@ -3,3 +3,11 @@ uvicorn
 sqlalchemy
 python-dotenv
 razorpay
+email-validator
+passlib
+python-jose
+pytest
+pytest-asyncio
+httpx
+
+
