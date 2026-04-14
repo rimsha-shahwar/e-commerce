@@ -86,10 +86,10 @@ RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 
 if not RAZORPAY_KEY_ID or not RAZORPAY_KEY_SECRET:
-    raise Exception("Razorpay keys are missing in .env file")
-
-razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
-
+    print("⚠️ Razorpay keys missing")
+    razorpay_client = None
+else:
+    razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
 @app.get("/")
 def root():
