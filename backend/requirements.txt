@@ -9,6 +9,6 @@ python-jose
 pytest
 pytest-asyncio
 httpx
-psycopg2
-
+psycopg2-binary
+python-multipart
 
