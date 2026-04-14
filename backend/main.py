@@ -2,7 +2,11 @@ import os
 import json
 import hmac
 import hashlib
-import razorpay
+try:
+    import razorpay
+except ImportError:
+    razorpay = None
+    print("⚠️ Razorpay not installed")
 
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -473,6 +477,8 @@ class CODOrderRequest(BaseModel):
 # =========================================================
 @app.post("/payments/create-order")
 def create_payment_order(data: CreatePaymentOrderRequest, db: Session = Depends(get_db)):
+    if razorpay_client is None:
+        raise HTTPException(status_code=500, detail="Payment service not available")
     try:
         print("PAYMENT REQUEST:", data.dict())
 
