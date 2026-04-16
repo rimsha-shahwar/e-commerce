@@ -8,6 +8,7 @@ const AdminAuth = () => {
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -27,38 +28,60 @@ const AdminAuth = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setMessage("");
+
+    if (!form.name || !form.email || !form.password) {
+      setMessage("Please fill all fields");
+      return;
+    }
 
     try {
-      await axios.post(`${API_BASE_URL}/admin/register`, form);
+      setLoading(true);
 
-      setMessage("🎉 Registered Successfully");
+      const res = await axios.post(`${API_BASE_URL}/admin/register`, form);
+
+      setMessage(res.data?.message || "🎉 Registered Successfully");
       localStorage.setItem("admin", "true");
 
       setTimeout(() => {
         navigate("/admin/dashboard");
       }, 1000);
     } catch (err) {
-      setMessage(err.response?.data?.message || "Registration Error");
+      console.log("Register error:", err.response?.data || err.message);
+      setMessage(err.response?.data?.detail || "Registration Error");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setMessage("");
+
+    if (!form.email || !form.password) {
+      setMessage("Please enter email and password");
+      return;
+    }
 
     try {
-      await axios.post(`${API_BASE_URL}/admin/login`, {
+      setLoading(true);
+
+      const res = await axios.post(`${API_BASE_URL}/admin/login`, {
         email: form.email,
         password: form.password,
       });
 
-      setMessage("✅ Login Successful");
+      setMessage(res.data?.message || "✅ Login Successful");
       localStorage.setItem("admin", "true");
 
       setTimeout(() => {
         navigate("/admin/dashboard");
       }, 1000);
     } catch (err) {
-      setMessage("❌ Invalid email or password");
+      console.log("Login error:", err.response?.data || err.message);
+      setMessage(err.response?.data?.detail || "❌ Invalid email or password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,6 +107,7 @@ const AdminAuth = () => {
                 type="text"
                 name="name"
                 placeholder="Full Name"
+                value={form.name}
                 onChange={handleChange}
                 className="bg-transparent outline-none w-full placeholder-white"
               />
@@ -96,6 +120,7 @@ const AdminAuth = () => {
               type="email"
               name="email"
               placeholder="Email"
+              value={form.email}
               onChange={handleChange}
               className="bg-transparent outline-none w-full placeholder-white"
             />
@@ -103,11 +128,11 @@ const AdminAuth = () => {
 
           <div className="flex items-center bg-white/30 p-2 rounded-lg">
             <FaLock className="mx-2" />
-
             <input
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
+              value={form.password}
               onChange={handleChange}
               className="bg-transparent outline-none w-full placeholder-white"
             />
@@ -122,9 +147,14 @@ const AdminAuth = () => {
 
           <button
             type="submit"
-            className="w-full bg-white text-purple-600 py-2 rounded-lg font-bold hover:bg-gray-200 transition"
+            disabled={loading}
+            className="w-full bg-white text-purple-600 py-2 rounded-lg font-bold hover:bg-gray-200 transition disabled:opacity-70"
           >
-            {isLogin ? "Login 🔐" : "Register 🚀"}
+            {loading
+              ? "Please wait..."
+              : isLogin
+              ? "Login 🔐"
+              : "Register 🚀"}
           </button>
         </form>
 

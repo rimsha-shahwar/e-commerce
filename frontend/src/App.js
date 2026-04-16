@@ -51,8 +51,6 @@ function App() {
       <Routes>
         {/* ================= ADMIN ================= */}
         <Route path="/admin" element={<AdminAuth />} />
-        <Route path="/admin/login" element={<AdminAuth />} />
-        <Route path="/admin/register" element={<AdminAuth />} />
 
         <Route
           path="/admin/dashboard"
