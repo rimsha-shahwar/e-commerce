@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 const OwnerOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -14,7 +15,7 @@ const OwnerOrders = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:8000/orders");
+      const res = await axios.get(`${API_BASE_URL}/orders`);
 
       const formatted = (res.data || []).map((order) => ({
         ...order,

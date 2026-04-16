@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
+import API_BASE_URL from "../config";
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -15,7 +16,7 @@ const User = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/users");
+      const res = await axios.get(`${API_BASE_URL}/users`);
       setUsers(res.data);
     } catch (err) {
       console.error(err);
@@ -31,7 +32,7 @@ const User = () => {
   // DELETE USER
   const deleteUser = async () => {
     try {
-      await axios.delete(`http://localhost:8000/users/${deleteId}`);
+      await axios.delete(`${API_BASE_URL}/users/${deleteId}`);
       setShowModal(false);
       setDeleteId(null);
       fetchUsers();
@@ -43,7 +44,7 @@ const User = () => {
   // TOGGLE BLOCK / UNBLOCK
   const toggleUser = async (id) => {
     try {
-      await axios.put(`http://localhost:8000/users/${id}/toggle`);
+      await axios.put(`${API_BASE_URL}/users/${id}/toggle`);
       fetchUsers();
     } catch (err) {
       console.error(err);
@@ -54,7 +55,7 @@ const User = () => {
   const updateUser = async () => {
     try {
       await axios.put(
-        `http://localhost:8000/users/${editingUser.id}`,
+        `${API_BASE_URL}/users/${editingUser.id}`,
         {
           name: editingUser.name,
           email: editingUser.email,

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 function Address() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function Address() {
         return;
       }
 
-      const addressRes = await axios.post("http://localhost:8000/addresses", {
+      const addressRes = await axios.post(`${API_BASE_URL}/addresses`, {
         user_id: user.id,
         name: form.name,
         phone: form.phone,
@@ -50,7 +51,7 @@ function Address() {
 
       // if online order already created
       if (order_id) {
-        await axios.put(`http://localhost:8000/orders/${order_id}/address?address_id=${addressId}`);
+        await axios.put(`${API_BASE_URL}/orders/${order_id}/address?address_id=${addressId}`);
         navigate("/order-success", {
           state: {
             order_id,
@@ -67,7 +68,7 @@ function Address() {
         quantity: item.quantity,
       }));
 
-      const codRes = await axios.post("http://localhost:8000/orders/cod", {
+      const codRes = await axios.post(`${API_BASE_URL}/orders/cod`, {
         user_id: user.id,
         address_id: addressId,
         payment_mode: payment,

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
 import { Package, IndianRupee, Layers } from "lucide-react";
+import API_BASE_URL from "../config";
 
 import {
   BarChart,
@@ -30,7 +31,7 @@ const DashboardHome = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/settings");
+      const res = await axios.get(`${API_BASE_URL}/settings`);
       setStoreName(res.data?.store_name || "My E-Commerce");
       setLogoPreview(res.data?.logo_preview || "");
       setCurrency(res.data?.currency || "INR");
@@ -40,12 +41,12 @@ const DashboardHome = () => {
   };
 
   const fetchProducts = async () => {
-    const res = await axios.get("http://localhost:8000/products");
+    const res = await axios.get(`${API_BASE_URL}/products`);
     setProducts(res.data);
   };
 
   const fetchOrders = async () => {
-    const res = await axios.get("http://localhost:8000/orders");
+    const res = await axios.get(`${API_BASE_URL}/orders`);
 
     const parsed = res.data.map((o) => ({
       ...o,

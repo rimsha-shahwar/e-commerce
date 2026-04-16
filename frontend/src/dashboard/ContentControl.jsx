@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
+import API_BASE_URL from "../config";
 
 const ContentControl = () => {
   const [banner, setBanner] = useState("");
@@ -23,7 +24,7 @@ const ContentControl = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/settings");
+      const res = await axios.get(`${API_BASE_URL}/settings`);
       setBanner(res.data?.banner_preview || "");
       setLogoPreview(res.data?.logo_preview || "");
       setStoreName(res.data?.store_name || "My E-Commerce");
@@ -34,7 +35,7 @@ const ContentControl = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/categories");
+      const res = await axios.get(`${API_BASE_URL}/categories`);
       setCategories(res.data);
     } catch (err) {
       console.error(err);

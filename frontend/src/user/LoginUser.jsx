@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import API_BASE_URL from "../config";
 
 const LoginUser = () => {
   const [email, setEmail] = useState("");
@@ -61,7 +62,7 @@ const LoginUser = () => {
 
       // 🔍 Check user status FIRST
       const checkRes = await axios.get(
-        "http://localhost:8000/users/check-by-email",
+        `${API_BASE_URL}/users/check-by-email`,
         {
           params: {
             email: email.trim(),
@@ -78,7 +79,7 @@ const LoginUser = () => {
 
       // ✅ LOGIN
       const res = await axios.post(
-        "http://localhost:8000/users/login",
+        `${API_BASE_URL}/users/login`,
         {
           email: email.trim(),
           password: password.trim(),

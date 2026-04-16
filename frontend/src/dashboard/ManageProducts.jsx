@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
 import { X } from "lucide-react";
+import API_BASE_URL from "../config";
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
@@ -31,13 +32,13 @@ const ManageProducts = () => {
 
   // 🔄 Fetch categories from backend
   const fetchCategories = async () => {
-    const res = await axios.get("http://localhost:8000/categories");
+    const res = await axios.get(`${API_BASE_URL}/categories`);
     setCategories(res.data); // array of objects {id, name, image}
   };
 
   // 🔄 Fetch products from backend
   const fetchProducts = async () => {
-    const res = await axios.get("http://localhost:8000/products");
+    const res = await axios.get(`${API_BASE_URL}/products`);
     setProducts(res.data);
   };
 
@@ -61,7 +62,7 @@ const ManageProducts = () => {
   // ➕ Add Product
   const handleAdd = async () => {
     if (!newProduct.category) return alert("Select category!");
-    await axios.post("http://localhost:8000/products", {
+    await axios.post(`${API_BASE_URL}/products`, {
       ...newProduct,
       price: Number(newProduct.price)
     });
@@ -80,14 +81,14 @@ const ManageProducts = () => {
 
   // 🗑 Delete
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:8000/products/${id}`);
+    await axios.delete(`${API_BASE_URL}/products/${id}`);
     fetchProducts();
   };
 
   // ✏️ Update
   const handleUpdate = async () => {
     await axios.put(
-      `http://localhost:8000/products/${editingProduct.id}`,
+      `${API_BASE_URL}/products/${editingProduct.id}`,
       editingProduct
     );
     setEditingProduct(null);

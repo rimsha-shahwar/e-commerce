@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
+import API_BASE_URL from "../config";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -19,7 +20,7 @@ const Orders = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/settings");
+      const res = await axios.get(`${API_BASE_URL}/settings`);
       setCurrency(res.data?.currency || "INR");
       setOrderAutoConfirm(res.data?.order_auto_confirm || false);
     } catch (err) {
@@ -29,7 +30,7 @@ const Orders = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/products");
+      const res = await axios.get(`${API_BASE_URL}/products`);
 
       const map = {};
       res.data.forEach((p) => {
@@ -44,7 +45,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/orders");
+      const res = await axios.get(`${API_BASE_URL}/orders`);
 
       const formatted = res.data.map((o) => ({
         id: o.id,
@@ -66,7 +67,7 @@ const Orders = () => {
   const updateStatus = async (id, status) => {
     try {
       await axios.put(
-        `http://localhost:8000/orders/${id}/status?status=${status}`
+        `${API_BASE_URL}/orders/${id}/status?status=${status}`
       );
 
       setOrders((prev) =>
@@ -88,7 +89,7 @@ const Orders = () => {
 
   const deleteOrder = async () => {
     try {
-      await axios.delete(`http://localhost:8000/orders/${deleteId}`);
+      await axios.delete(`${API_BASE_URL}/orders/${deleteId}`);
 
       setShowModal(false);
       setDeleteId(null);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaSearch, FaTimes, FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "../config";
 
 const ManageAdmins = () => {
   const [admins, setAdmins] = useState([]);
@@ -10,7 +11,7 @@ const ManageAdmins = () => {
 
   const fetchAdmins = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/admins");
+      const res = await axios.get(`${API_BASE_URL}/admins`);
       setAdmins(res.data);
     } catch (err) {
       console.error(err);
@@ -24,9 +25,9 @@ const ManageAdmins = () => {
   const toggleBlock = async (id, isActive) => {
     try {
       if (isActive) {
-        await axios.put(`http://localhost:8000/admins/block/${id}`);
+        await axios.put(`${API_BASE_URL}/admins/block/${id}`);
       } else {
-        await axios.put(`http://localhost:8000/admins/unblock/${id}`);
+        await axios.put(`${API_BASE_URL}/admins/unblock/${id}`);
       }
       fetchAdmins();
     } catch (err) {

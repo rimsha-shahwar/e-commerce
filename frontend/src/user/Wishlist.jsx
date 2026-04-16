@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 const Wishlist = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Wishlist = () => {
     if (!user) return;
 
     try {
-      const res = await axios.get(`http://localhost:8000/wishlist/${user.id}`);
+      const res = await axios.get(`${API_BASE_URL}/wishlist/${user.id}`);
       setWishlist(res.data || []);
       localStorage.setItem("wishlist", JSON.stringify(res.data || []));
       window.dispatchEvent(new Event("wishlistUpdated"));
@@ -28,7 +29,7 @@ const Wishlist = () => {
     if (!user) return;
 
     try {
-      const res = await axios.get(`http://localhost:8000/cart/${user.id}`);
+      const res = await axios.get(`${API_BASE_URL}/cart/${user.id}`);
       setCart(res.data || []);
       localStorage.setItem("cart", JSON.stringify(res.data || []));
       window.dispatchEvent(new Event("cartUpdated"));
@@ -44,7 +45,7 @@ const Wishlist = () => {
 
   const removeItem = async (id) => {
     try {
-      await axios.delete("http://localhost:8000/wishlist/remove", {
+      await axios.delete(`${API_BASE_URL}/wishlist/remove`, {
         data: {
           user_id: user.id,
           product_id: id,
@@ -59,7 +60,7 @@ const Wishlist = () => {
 
   const addToCart = async (product) => {
     try {
-      await axios.post("http://localhost:8000/cart/", {
+      await axios.post(`${API_BASE_URL}/cart/`, {
         user_id: user.id,
         product_id: product.id,
         quantity: 1,

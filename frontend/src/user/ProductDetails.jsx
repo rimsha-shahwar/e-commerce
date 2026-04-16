@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import API_BASE_URL from "../config";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/products");
+        const res = await axios.get(`${API_BASE_URL}/products`);
 
         const data = res.data;
         setAllProducts(data);
@@ -59,7 +60,7 @@ const ProductDetails = () => {
     }
 
     try {
-      await axios.post("http://localhost:8000/cart", {
+      await axios.post(`${API_BASE_URL}/cart`, {
         user_id: user.id,
         product_id: productId,
         quantity: quantity,

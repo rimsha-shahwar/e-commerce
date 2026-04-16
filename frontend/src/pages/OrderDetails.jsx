@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import API_BASE_URL from "../config";
 
 function OrderDetails() {
   const { id } = useParams();
@@ -16,7 +17,7 @@ function OrderDetails() {
 
   const fetchOrder = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/orders/${id}`);
+      const res = await axios.get(`${API_BASE_URL}/orders/${id}`);
       setOrder(res.data);
     } catch (err) {
       console.error("Error fetching order:", err);
@@ -68,7 +69,7 @@ function OrderDetails() {
       setSending(true);
 
       const res = await axios.post(
-        `http://localhost:8000/orders/${order.id}/send-invoice`
+        `${API_BASE_URL}/orders/${order.id}/send-invoice`
       );
 
       alert(res.data.message || "Invoice sent successfully");

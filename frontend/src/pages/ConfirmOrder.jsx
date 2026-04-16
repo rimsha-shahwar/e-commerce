@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 function ConfirmOrder() {
   const location = useLocation();
@@ -66,7 +67,7 @@ function ConfirmOrder() {
       };
 
       const res = await axios.post(
-        "http://127.0.0.1:8000/orders",
+        `${API_BASE_URL}/orders`,
         payload
       );
 

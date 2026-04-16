@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Cart = () => {
     if (!user) return;
 
     try {
-      const res = await axios.get(`http://localhost:8000/cart/${user.id}`);
+      const res = await axios.get(`${API_BASE_URL}/cart/${user.id}`);
       setCart(res.data || []);
       localStorage.setItem("cart", JSON.stringify(res.data || []));
       window.dispatchEvent(new Event("cartUpdated"));
@@ -54,7 +55,7 @@ const Cart = () => {
     const item = cart.find((p) => p.id === id);
 
     try {
-      await axios.put("http://localhost:8000/cart/update", {
+      await axios.put(`${API_BASE_URL}/cart/update`, {
         user_id: user.id,
         product_id: id,
         quantity: item.quantity + 1,
@@ -77,7 +78,7 @@ const Cart = () => {
 
     if (item.quantity > 1) {
       try {
-        await axios.put("http://localhost:8000/cart/update", {
+        await axios.put(`${API_BASE_URL}/cart/update`, {
           user_id: user.id,
           product_id: id,
           quantity: item.quantity - 1,
@@ -98,7 +99,7 @@ const Cart = () => {
 
   const removeItem = async (id) => {
     try {
-      await axios.delete("http://localhost:8000/cart/remove", {
+      await axios.delete(`${API_BASE_URL}/cart/remove`, {
         data: {
           user_id: user.id,
           product_id: id,

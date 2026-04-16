@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // ✅ import
+import API_BASE_URL from "../config";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -10,7 +11,7 @@ const ManageUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/users");
+      const res = await axios.get(`${API_BASE_URL}/users`);
       setUsers(res.data);
     } catch (err) {
       console.error(err);
@@ -24,9 +25,9 @@ const ManageUsers = () => {
   const toggleBlock = async (id, isActive) => {
     try {
       if (isActive) {
-        await axios.put(`http://localhost:8000/users/block/${id}`);
+        await axios.put(`${API_BASE_URL}/users/block/${id}`);
       } else {
-        await axios.put(`http://localhost:8000/users/unblock/${id}`);
+        await axios.put(`${API_BASE_URL}/users/unblock/${id}`);
       }
       fetchUsers();
     } catch (err) {

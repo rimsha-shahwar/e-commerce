@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import PaymentOptions from "../components/checkout/PaymentOptions";
+import API_BASE_URL from "../config";
 
 function Checkout() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function Checkout() {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/settings");
+      const res = await axios.get(`${API_BASE_URL}/settings`);
       setCurrency(res.data?.currency || "INR");
       setSupportEmail(res.data?.store_email || "");
       setSupportPhone(res.data?.store_phone || "");
@@ -86,7 +87,7 @@ function Checkout() {
 
       const productsPayload = prepareProductsPayload();
 
-      const orderRes = await axios.post("http://localhost:8000/payments/create-order", {
+      const orderRes = await axios.post(`${API_BASE_URL}/payments/create-order`, {
         user_id: user.id,
         amount: total,
         currency: "INR",
@@ -127,7 +128,7 @@ function Checkout() {
         },
         handler: async function (response) {
           try {
-            const verifyRes = await axios.post("http://localhost:8000/payments/verify", {
+            const verifyRes = await axios.post(`${API_BASE_URL}/payments/verify`, {
               order_db_id: order_db_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,

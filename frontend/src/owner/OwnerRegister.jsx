@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import API_BASE_URL from "../config";
 
 const OwnerRegister = () => {
   const [name, setName] = useState("");   // ✅ ADD NAME
@@ -13,7 +14,7 @@ const OwnerRegister = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8000/owner/register", {
+      await axios.post(`${API_BASE_URL}/owner/register`, {
         name,        // ✅ REQUIRED
         email,
         password

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 const OwnerAnalytics = () => {
   const [orders, setOrders] = useState([]);
@@ -17,10 +18,10 @@ const OwnerAnalytics = () => {
       setLoading(true);
 
       const [ordersRes, usersRes, adminsRes, productsRes] = await Promise.all([
-        axios.get("http://localhost:8000/orders"),
-        axios.get("http://localhost:8000/users"),
-        axios.get("http://localhost:8000/admins"),
-        axios.get("http://localhost:8000/products"),
+        axios.get(`${API_BASE_URL}/orders`),
+        axios.get(`${API_BASE_URL}/users`),
+        axios.get(`${API_BASE_URL}/admins`),
+        axios.get(`${API_BASE_URL}/products`),
       ]);
 
       const formattedOrders = (ordersRes.data || []).map((order) => ({

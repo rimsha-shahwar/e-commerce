@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import API_BASE_URL from "../config";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -32,7 +33,7 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/products");
+      const res = await axios.get(`${API_BASE_URL}/products`);
       setProducts(res.data || []);
     } catch (err) {
       console.error(err);
@@ -42,7 +43,7 @@ const Home = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/categories");
+      const res = await axios.get(`${API_BASE_URL}/categories`);
       setCategories(res.data || []);
     } catch (err) {
       console.error(err);
@@ -60,7 +61,7 @@ const Home = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:8000/wishlist/${user.id}`);
+      const res = await axios.get(`${API_BASE_URL}/wishlist/${user.id}`);
       setWishlist(res.data || []);
       localStorage.setItem("wishlist", JSON.stringify(res.data || []));
       window.dispatchEvent(new Event("wishlistUpdated"));
@@ -72,7 +73,7 @@ const Home = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/settings");
+      const res = await axios.get(`${API_BASE_URL}/settings`);
       setMaintenanceMode(res.data?.maintenance_mode || false);
       setSettingsBanner(res.data?.banner_preview || "");
     } catch (err) {
@@ -124,7 +125,7 @@ const Home = () => {
     }
 
     try {
-      await axios.post("http://localhost:8000/cart/", {
+      await axios.post(`${API_BASE_URL}/cart/`, {
         user_id: user.id,
         product_id: product.id,
         quantity: 1,
@@ -159,7 +160,7 @@ const Home = () => {
       const exists = wishlist.find((p) => p.id === product.id);
 
       if (exists) {
-        await axios.delete("http://localhost:8000/wishlist/remove", {
+        await axios.delete(`${API_BASE_URL}/wishlist/remove`, {
           data: {
             user_id: user.id,
             product_id: product.id,
@@ -170,7 +171,7 @@ const Home = () => {
         setWishlist(newWishlist);
         localStorage.setItem("wishlist", JSON.stringify(newWishlist));
       } else {
-        await axios.post("http://localhost:8000/wishlist/", {
+        await axios.post(`${API_BASE_URL}/wishlist/`, {
           user_id: user.id,
           product_id: product.id,
         });

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 const OwnerSettings = () => {
   const logoInputRef = useRef(null);
@@ -33,7 +34,7 @@ const OwnerSettings = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/settings");
+      const res = await axios.get(`${API_BASE_URL}/settings`);
       const data = res.data || {};
 
       setStoreName(data.store_name ?? "My E-Commerce");
@@ -58,7 +59,7 @@ const OwnerSettings = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put("http://localhost:8000/settings", {
+      await axios.put(`${API_BASE_URL}/settings`, {
         store_name: storeName,
         store_email: storeEmail,
         store_phone: storePhone,

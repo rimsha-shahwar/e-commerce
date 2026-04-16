@@ -18,7 +18,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-
+import API_BASE_URL from "../config";
 import { useNavigate } from "react-router-dom";
 
 const OwnerOverview = () => {
@@ -34,7 +34,7 @@ const OwnerOverview = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/admin/analytics");
+        const res = await axios.get(`${API_BASE_URL}/admin/analytics`);
         setStats(res.data);
       } catch (err) {
         console.error(err);

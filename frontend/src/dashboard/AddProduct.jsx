@@ -3,6 +3,7 @@ import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
 import { ImagePlus, Upload } from "lucide-react";
 import imageCompression from "browser-image-compression"; // ✅ new
+import API_BASE_URL from "../config";
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -61,7 +62,7 @@ const AddProduct = () => {
       setLoading(true);
 
       // Send product to backend
-      await axios.post("http://localhost:8000/products", {
+      await axios.post(`${API_BASE_URL}/products`, {
         ...product,
         price: Number(product.price)
       });

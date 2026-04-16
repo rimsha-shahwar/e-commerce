@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
 import { X, Edit, Trash2 } from "lucide-react";
+import API_BASE_URL from "../config";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -14,7 +15,7 @@ const Categories = () => {
 
   // 🔄 Fetch categories from backend
   const fetchCategories = async () => {
-    const res = await axios.get("http://localhost:8000/categories");
+    const res = await axios.get(`${API_BASE_URL}/categories`);
     setCategories(res.data);
   };
 
@@ -23,7 +24,7 @@ const Categories = () => {
     if (!newCategory.name) return alert("Category name required!");
 
     try {
-      await axios.post("http://localhost:8000/categories", newCategory); // wait for backend
+      await axios.post(`${API_BASE_URL}/categories`, newCategory); // wait for backend
       setNewCategory({ name: "", image: "" }); // reset form
       fetchCategories(); // refresh table
     } catch (err) {
@@ -35,7 +36,7 @@ const Categories = () => {
   // ✏️ Update category
   const handleUpdateCategory = async () => {
     await axios.put(
-      `http://localhost:8000/categories/${editingCategory.id}`,
+      `${API_BASE_URL}/categories/${editingCategory.id}`,
       editingCategory
     );
     setEditingCategory(null);
@@ -45,7 +46,7 @@ const Categories = () => {
   // 🗑 Delete category
   const handleDeleteCategory = async (id) => {
     if (!window.confirm("Are you sure you want to delete this category?")) return;
-    await axios.delete(`http://localhost:8000/categories/${id}`);
+    await axios.delete(`${API_BASE_URL}/categories/${id}`);
     fetchCategories();
   };
 

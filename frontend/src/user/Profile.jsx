@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import API_BASE_URL from "../config";
 
 const Profile = () => {
   const storedUser = JSON.parse(localStorage.getItem("user") || "null");
@@ -66,7 +67,7 @@ const Profile = () => {
       setLoading(true);
 
       const res = await axios.put(
-        `http://localhost:8000/users/${user.id}`,
+        `${API_BASE_URL}/users/${user.id}`,
         form
       );
 
